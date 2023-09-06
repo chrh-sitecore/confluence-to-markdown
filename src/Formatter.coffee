@@ -29,7 +29,7 @@ class Formatter
   # @return {string} HTML representation of a content
   ###
   getHtml: ($content) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     contentHtml = ''
     $content.each (i, el) =>
       contentHtml += $(el).html()
@@ -65,7 +65,7 @@ class Formatter
 
 
   addPageHeading: ($content, headingText) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     h1 = $('<h1>').text headingText
     $content.first().prepend h1
     $content
@@ -86,7 +86,7 @@ class Formatter
   # @return {cheerio obj} Cheerio object
   ###
   fixEmptyLink: ($content) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     $content
       .find('a').each (i, el) =>
         if (
@@ -103,7 +103,7 @@ class Formatter
   # @return {cheerio obj} Cheerio object
   ###
   fixEmptyHeading: ($content) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     $content
       .find(':header').each (i, el) =>
         if $(el).text().trim().length == 0
@@ -117,7 +117,7 @@ class Formatter
   # @return {cheerio obj} Cheerio object
   ###
   fixPreformattedText: ($content) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     $content
       .find('pre').each (i, el) =>
         data = $(el).data('syntaxhighlighterParams')
@@ -135,7 +135,7 @@ class Formatter
   # @return {cheerio obj} Cheerio object
   ###
   fixImageWithinSpan: ($content) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     $content
       .find('span:has(img)').each (i, el) =>
         if $(el).text().trim().length == 0
@@ -191,7 +191,7 @@ class Formatter
   # @return {cheerio obj} Cheerio object
   ###
   fixLocalLinks: ($content, space, pages) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     $content
       .find('a').each (i, el) =>
         href = $(el).attr 'href'
@@ -228,7 +228,7 @@ class Formatter
   # @return {cheerio obj} Cheerio object
   ###
   _removeElementLeaveText: ($content, selector) ->
-    $ = @_cheerio
+    $ = @_cheerio.default
     $content
       .find(selector).each (i, el) =>
         $(el).replaceWith $(el).text()

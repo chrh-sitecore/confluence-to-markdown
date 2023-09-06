@@ -13,8 +13,8 @@
   "main": "./src/index.coffee",
   "repository": "git@github.com:meridius/confluence-to-markdown.git",
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "coffee-script": "^1.10.0",
+    "cheerio": "^1.0.0-rc.12",
+    "coffee-script": "^1.12.7",
     "fs": "0.0.1-security",
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-fs": "^0.1.0",
+    "chai-fs": "^1.0.0",
     "mocha": "^3.1.0"
   },
   "scripts": {
