@@ -67,9 +67,12 @@ class App
     fullOutFileName = @_path.join dirOut, page.space, page.fileNameNew
 
     @logger.info 'Making Markdown ... ' + fullOutFileName
-    @writeMarkdownFile text, fullOutFileName
-    @utils.copyAssets @utils.getDirname(page.path), @utils.getDirname(fullOutFileName)
-    @logger.info 'Done\n'
+    try
+        @writeMarkdownFile text, fullOutFileName
+        @utils.copyAssets @utils.getDirname(page.path), @utils.getDirname(fullOutFileName)
+        @logger.info 'Done\n'
+    catch error
+        @logger.error "Failed: #{error}\n"
 
 
   ###*
@@ -79,9 +82,11 @@ class App
   ###
   writeMarkdownFile: (text, fullOutFileName) ->
     fullOutDirName = @utils.getDirname fullOutFileName
-    @_mkdirp.sync fullOutDirName, (error) ->
-      if error
-        @logger.error 'Unable to create directory #{fullOutDirName}'
+    try
+        @_mkdirp.sync fullOutDirName
+    catch error
+        @logger.error "Unable to create directory '#{fullOutDirName}': #{error}"
+        throw error
 
     tempInputFile = fullOutFileName + '~'
     @_fs.writeFileSync tempInputFile, text, flag: 'w'

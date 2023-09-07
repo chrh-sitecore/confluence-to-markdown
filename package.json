@@ -16,7 +16,7 @@
     "cheerio": "^1.0.0-rc.12",
     "coffee-script": "^1.12.7",
     "fs": "0.0.1-security",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^3.0.1",
     "ncp": "^2.0.0",
     "path": "^0.12.7",
     "rimraf": "^2.5.4",
