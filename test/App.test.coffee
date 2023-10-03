@@ -6,7 +6,7 @@ describe 'App', ->
   it 'testing run few', ->
     pathResource = _path.join __dirname, 'assets/few'
     pathResult = _path.join __dirname, 'few/Markdown'
-    _rmdir.sync pathResult, {'rmdirSync'}, (error)->
+    try _rmdir.sync pathResult
     logger = new Logger Logger.WARNING
     formatter = new Formatter _cheerio, logger
     utils = new Utils _fs, _path, _ncp, logger
@@ -17,7 +17,7 @@ describe 'App', ->
   it 'testing run all', ->
     pathResource = _path.join __dirname, 'assets/all'
     pathResult = _path.join __dirname, 'all/Markdown'
-    _rmdir.sync pathResult, {'rmdirSync'}, (error)->
+    try _rmdir.sync pathResult
     logger = new Logger Logger.WARNING
     formatter = new Formatter _cheerio, logger
     utils = new Utils _fs, _path, _ncp, logger
