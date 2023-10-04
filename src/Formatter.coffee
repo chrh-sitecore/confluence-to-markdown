@@ -166,7 +166,7 @@ class Formatter
   # @param {cheerio obj} $content Content of a file
   # @return {cheerio obj} Cheerio object
   ###
-  fixAttachmentWraper: ($content) ->
+  fixAttachmentWrapper: ($content) ->
     $content
       .find('.attachment-buttons').remove().end() # action buttons for attachments
       .find('.plugin_attachments_upload_container').remove().end() # dropbox for uploading new files
@@ -182,6 +182,40 @@ class Formatter
     $content
       .find('[id$="Recentspaceactivity"], [id$=Spacecontributors]').parent().remove()
       .end().end()
+
+
+  ###*
+  # Simplifies the index page tree by merging multiple
+  # UL children for each hierarchy level.
+  # @param {cheerio obj} $content Content of a file
+  # @return {cheerio obj} Cheerio object
+  ###
+  fixDuplicateUnorderedListSiblings: ($content) ->
+    $ = @_cheerio.default
+
+    $content
+      .find('div.pageSection ul:first').each (i, el) =>
+        @_traverseAndSimplifyUnorderedLists $(el)
+      .end()
+
+
+  ###*
+  # Traverses a multiple-level unordered list and merges
+  # multiple UL children for each hierarchy level.
+  # @param {cheerio obj} $currentUL Top UL element
+  ###
+  _traverseAndSimplifyUnorderedLists: ($currentUL) ->
+    $ = @_cheerio.default
+
+    childrenUL = $currentUL.children("li").children("ul")
+
+    # Depth first traversal
+    childrenUL.each (i, elem) =>
+      @_traverseAndSimplifyUnorderedLists $(elem)
+
+    # Merge multiple UL children into one
+    if childrenUL.length > 1
+      childrenUL.not(":first").remove().children("li").appendTo(childrenUL[0])
 
 
   ###*

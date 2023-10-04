@@ -1,5 +1,5 @@
 require './init'
-
+testdata = require './Formatter.testdata'
 
 describe 'Formatter', ->
 
@@ -107,3 +107,19 @@ describe 'Formatter', ->
       undefined
     )
 
+  it 'fixDuplicateUnorderedListSiblings() should simplify multiple levels of redundant UL elements', ->
+    logger = new Logger Logger.WARNING
+    utils = new Utils _fs, _path, _ncp, logger
+    formatter = new Formatter _cheerio, utils, logger
+    $content = (formatter.load testdata.fixDuplicateUnorderedListSiblingsInput).root()
+
+    $content = formatter.fixDuplicateUnorderedListSiblings $content
+
+    result = $content.find("body").html()
+    htmlWhitespace = /(?<=[>])(?:[\s\n]*([\s]*?)[\s\n]*)(?=[<])/ig
+    resultNoWhitespace = result.replace(htmlWhitespace, '')
+
+    assert.equal(
+      resultNoWhitespace
+      testdata.fixDuplicateUnorderedListSiblingsExpected
+    )
