@@ -1,9 +1,21 @@
 {
   "name": "confluence-to-markdown",
-  "version": "1.2.0",
-  "author": "Martin Lukes",
+  "version": "1.3.0",
+  "author": "Martin Lukeš",
+  "contributors": [
+    {
+      "name": "Martin Lukeš",
+      "email": "martin.meridius@gmail.com",
+      "url": "https://github.com/meridius"
+    },
+    {
+      "name": "Carl-Johan Berg",
+      "email": "berg.cj@gmail.com",
+      "url": "https://github.com/cjberg"
+    }
+  ],
   "license": "MIT",
-  "description": "Convert Confluence Pages to Markdown",
+  "description": "Confluence HTML-export to proper Markdown converter",
   "keywords": [
     "Confluence",
     "Markdown",
@@ -11,7 +23,7 @@
   ],
   "bin": "./bin/confluence-to-markdown",
   "main": "./src/index.coffee",
-  "repository": "git@github.com:meridius/confluence-to-markdown.git",
+  "repository": "git@github.com:cjberg/confluence-to-markdown.git",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "coffeescript": "^2.7.0",
