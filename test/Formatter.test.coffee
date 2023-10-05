@@ -8,7 +8,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<h1 id="CodingStandards-Odsadzovanieašírkakódu"><span class="mw-headline">Odsadzovanie a šírka kódu</span></h1>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixHeadline $content
     assert.equal(
       formatter.getText $content
@@ -20,7 +20,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>čitatelnosť kódu</p></div></div>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     assert.equal(
       $content.find('span.aui-icon').length
       1
@@ -40,7 +40,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<h1 class="firstHeading" id="CodingStandards-">foo<a name="HTML_v_templatech" rel="nofollow"></a></h1>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixEmptyLink $content
     assert.equal(
       $content.find('a').length
@@ -52,7 +52,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<h1 class="firstHeading" id="CodingStandards-">foo<a name="HTML_v_templatech" rel="nofollow">bar</a></h1>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixEmptyLink $content
     assert.equal(
       $content.find('a').length
@@ -64,7 +64,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<h1 class="firstHeading" id="CodingStandards-"><a name="HTML_v_templatech" rel="nofollow"></a></h1>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixEmptyLink $content
     assert.equal(
       $content.find('a').length
@@ -76,7 +76,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: php; gutter: false; theme: Confluence" data-theme="Confluence">echo "foo";</pre>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixPreformattedText $content
     assert.equal(
       $content.find('pre').attr('class')
@@ -88,7 +88,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<pre class="syntaxhighlighter-pre" data-theme="Confluence">echo "foo";</pre>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixPreformattedText $content
     assert.equal(
       $content.find('pre').attr('class')
@@ -100,7 +100,7 @@ describe 'Formatter', ->
     utils = new Utils _fs, _path, _ncp, logger
     formatter = new Formatter _cheerio, utils, logger
     text = '<pre class="syntaxhighlighter-pre" data-theme="Confluence">echo "foo";</pre>'
-    $content = formatter.load text
+    $content = (formatter.load text).root()
     $content = formatter.fixPreformattedText $content
     assert.equal(
       $content.find('pre').attr('class')
