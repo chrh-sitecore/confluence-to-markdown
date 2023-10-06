@@ -7,7 +7,7 @@ describe 'Formatter', ->
 
   beforeEach ->
     logger = new Logger Logger.WARNING
-    utils = new Utils _fs, _path, _ncp, logger
+    utils = new Utils _fs, _path, logger
     formatter = new Formatter _cheerio, utils, logger
 
   it 'fixHeadline()', ->

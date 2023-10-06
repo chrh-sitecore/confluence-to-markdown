@@ -1,11 +1,9 @@
 class Bootstrap
 
-  _fs = require 'fs'
-  _exec = require 'sync-exec'
-  _path = require 'path'
-  _ncp = require 'ncp'
+  _fs = require 'fs-extra'
+  _childProcess = require 'node:child_process'
+  _path = require 'node:path'
   _cheerio = require 'cheerio'
-  _mkdirp = require 'mkdirp'
 
   Utils = require './Utils'
   Logger = require './Logger'
@@ -23,10 +21,10 @@ class Bootstrap
     pathResult = _path.resolve pathResult
 
     logger = new Logger Logger.INFO
-    utils = new Utils _fs, _path, _ncp, logger
+    utils = new Utils _fs, _path, logger
     formatter = new Formatter _cheerio, utils, logger
     pageFactory = new PageFactory formatter, utils
-    app = new App _fs, _exec, _path, _mkdirp, utils, formatter, pageFactory, logger
+    app = new App _fs, _childProcess, _path, utils, formatter, pageFactory, logger
 
     logger.info 'Using source: ' + pathResource
     logger.info 'Using destination: ' + pathResult

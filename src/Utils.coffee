@@ -3,10 +3,9 @@ class Utils
   ###*
   # @param {fs} _fs Required lib
   # @param {path} _path Required lib
-  # @param {ncp} _ncp Required lib
   # @param {Logger} logger My lib
   ###
-  constructor: (@_fs, @_path, @_ncp, @logger) ->
+  constructor: (@_fs, @_path, @logger) ->
 
 
   mkdirSync: (path) ->
@@ -130,7 +129,7 @@ class Utils
     for asset in ['images', 'attachments']
       assetsDirIn = @_path.join pathWithHtmlFiles, asset
       assetsDirOut = @_path.join dirOut, asset
-      @_ncp assetsDirIn, assetsDirOut if @isDir(assetsDirIn)
+      @_fs.copySync assetsDirIn, assetsDirOut if @isDir(assetsDirIn)
 
 
 module.exports = Utils
