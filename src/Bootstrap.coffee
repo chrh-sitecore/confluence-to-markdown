@@ -10,7 +10,7 @@ class Bootstrap
   Formatter = require './Formatter'
   App = require './App'
   PageFactory = require './PageFactory'
-
+  PandocConverter = require './Converter/PandocConverter'
 
   ###*
   # @param {string} pathResource Directory with HTML files or one file. Can be nested.
@@ -24,7 +24,8 @@ class Bootstrap
     utils = new Utils _fs, _path, logger
     formatter = new Formatter _cheerio, utils, logger
     pageFactory = new PageFactory formatter, utils
-    app = new App _fs, _childProcess, _path, utils, formatter, pageFactory, logger
+    converter = new PandocConverter _childProcess, _fs, _path
+    app = new App _fs, _path, utils, formatter, pageFactory, converter, logger
 
     logger.info 'Using source: ' + pathResource
     logger.info 'Using destination: ' + pathResult

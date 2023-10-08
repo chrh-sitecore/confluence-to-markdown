@@ -1,37 +1,15 @@
 class App
-
-  # @link http://hackage.haskell.org/package/pandoc For options description
-  @outputTypesAdd = [
-     'gfm' # Use GitHub-Flavored Markdown
-  ]
-
-  @outputTypesRemove = [
-    'raw_html' # Don't use HTML tags in markdown
-  ]
-
-  @extraOptions = [
-    '--markdown-headings=atx' # Setext-style headers (underlined) | ATX-style headers (prefixed with hashes)
-  ]
-
   ###*
   # @param {fs} _fs Required lib
-  # @param {child_process} _childProcess Required lib
   # @param {path} _path Required lib
   # @param {Utils} utils My lib
   # @param {Formatter} formatter My lib
   # @param {PageFactory} pageFactory My lib
+  # @param {HtmlToMarkdownConverter} converter HTML to Markdown converter implementation
   # @param {Logger} logger My lib
   ###
-  constructor: (@_fs, @_childProcess, @_path, @utils, @formatter, @pageFactory, @logger) ->
-    typesAdd = App.outputTypesAdd.join '+'
-    typesRemove = App.outputTypesRemove.join '-'
-    typesRemove = if typesRemove then '-' + typesRemove else ''
-    types = typesAdd + typesRemove
-    @pandocOptions = [
-      if types then '-t ' + types else ''
-      App.extraOptions.join ' '
-    ].join ' '
-
+  constructor: (@_fs, @_path, @utils, @formatter, @pageFactory, @converter, @logger) ->
+    return
 
   ###*
   # Converts HTML files to MD files.
@@ -85,19 +63,7 @@ class App
         @logger.error "Unable to create directory '#{fullOutDirName}': #{error}"
         throw error
 
-    tempInputFile = fullOutFileName + '~'
-    @_fs.writeFileSync tempInputFile, text, flag: 'w'
-
-    try
-        command = "pandoc -f html #{@pandocOptions} -o \"#{fullOutFileName}\" \"#{tempInputFile}\""
-        execOptions =
-            cwd: fullOutDirName
-            stdio: 'pipe'
-        output = @_childProcess.execSync command, execOptions
-    catch error
-        @logger.error "Unable to execute pandoc! #{error}"
-
-    @_fs.unlinkSync tempInputFile
+    @converter.convert text, fullOutFileName
 
 
   ###*
