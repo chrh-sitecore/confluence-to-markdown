@@ -42,6 +42,7 @@ class Page
   ###
   getTextToConvert: (pages) ->
     content = @formatter.getRightContentByFileName @content, @fileName
+    content = @formatter.removeAttachmentsSection content
     content = @formatter.fixHeadline content
     content = @formatter.fixIcon content
     content = @formatter.fixEmptyLink content
@@ -52,11 +53,20 @@ class Page
     content = @formatter.fixArbitraryClasses content
     content = @formatter.fixAttachmentWrapper content
     content = @formatter.fixPageLog content
+    content = @formatter.wrapCodeBlocks content
+    content = @formatter.removeApScriptElements content
+    content = @formatter.removeStyleTags content
     content = @formatter.fixLocalLinks content, @space, pages
-    content = @formatter.addPageHeading content, @heading
     if @fileName == 'index.html'
       content = @formatter.fixDuplicateUnorderedListSiblings content
     @formatter.getHtml content
 
+  ###*
+  # Converts HTML file at given path to MD formatted text without removing any elements.
+  # @return {string} Content of a file parsed to MD
+  ###
+  getRawText: (pages) ->
+    content = @formatter.getPageMeta @content, @fileName 
+    @formatter.getHtml content
 
 module.exports = Page

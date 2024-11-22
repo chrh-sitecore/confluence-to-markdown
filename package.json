@@ -29,8 +29,9 @@
     "coffeescript": "^2.7.0",
     "commander": "^11.0.0",
     "fs-extra": "^11.1.1",
-    "turndown": "^7.1.2",
-    "joplin-turndown-plugin-gfm": "^1.0.12"
+    "joplin-turndown-plugin-gfm": "^1.0.12",
+    "jsdom": "^25.0.1",
+    "turndown": "^7.1.2"
   },
   "devDependencies": {
     "chai": "^4.3.10",

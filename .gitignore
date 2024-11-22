@@ -4,3 +4,5 @@ test-build/
 /node_modules/
 /.idea/
 *.map
+/output
+/src/.vs

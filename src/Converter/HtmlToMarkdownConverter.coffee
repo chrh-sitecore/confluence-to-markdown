@@ -4,9 +4,10 @@ class HtmlToMarkdownConverter
 
   ###*
   # @param {string} html HTML input
+  # @param {string} rawHtml Markdown output file
   # @param {string} markdownPath Markdown output file
   ###
-  convert: (html, markdownPath) ->
+  convert: (html, rawHtml, markdownPath) ->
     throw new Error("Abstract method called with html = #{html}, markdownPath = #{markdownPath}")
 
 module.exports = HtmlToMarkdownConverter
