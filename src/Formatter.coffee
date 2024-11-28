@@ -49,7 +49,7 @@ class Formatter
     else
       selector = [
         '#main-content'
-        '.pageSection.group:has(.pageSectionHeader>#attachments)'
+      #  '.pageSection.group:has(.pageSectionHeader>#attachments)'
         '.pageSection.group:has(.pageSectionHeader>#comments)'
       ]
       $content.find selector.join ', '
@@ -64,11 +64,12 @@ class Formatter
     @_removeElementLeaveText $content, 'span.aui-icon'
 
 
-  addPageHeading: ($content, headingText) ->
-    $ = @_cheerio.default
-    h1 = $('<h1>').text headingText
-    $content.first().prepend h1
-    $content
+  getPageMeta: ($content, fileName) ->
+    if fileName == 'index.html'
+      $content.find('#content')
+        .find('#main-content>.confluenceTable').remove().end() # Removes arbitrary table located on top of index page
+    else
+      $content.find '#main'
 
 
   ###*
@@ -147,6 +148,18 @@ class Formatter
     @_removeElementLeaveText $content, 'span, .user-mention'
 
 
+  removeApScriptElements: ($content) ->
+    $content
+      .find('.ap-container').remove().end()
+
+  removeAttachmentsSection: ($content) ->
+    $content
+      .find('#attachments').remove().end()
+
+
+  removeStyleTags: ($content) ->
+    $content
+      .find('style').remove().end()
   ###*
   # Removes arbitrary confluence classes.
   # @param {cheerio obj} $content Content of a file
@@ -268,5 +281,16 @@ class Formatter
         $(el).replaceWith $(el).text()
       .end()
 
+  ###*
+  # Wraps codeContent blocks with pre and code tags so the parser can pick them up correctly.
+  # @param {cheerio obj} $content Content of a file
+  # @return {cheerio obj} Cheerio object
+  ###
+  wrapCodeBlocks: ($content) ->
+    $ = @_cheerio.default
+    $content
+      .find('.codeContent').each (i, el) ->
+        $(el).replaceWith "<pre><code class='language-csharp'>" + $(el).html() + "</code></pre>"
+      .end()
 
 module.exports = Formatter

@@ -38,12 +38,13 @@ class App
   ###
   convertPage: (page, dirIn, dirOut, pages) ->
     @logger.info 'Parsing ... ' + page.path
+    rawText = page.getRawText pages
     text = page.getTextToConvert pages
     fullOutFileName = @_path.join dirOut, page.space, page.fileNameNew
 
     @logger.info 'Making Markdown ... ' + fullOutFileName
     try
-        @writeMarkdownFile text, fullOutFileName
+        @writeMarkdownFile text, rawText, fullOutFileName
         @utils.copyAssets @utils.getDirname(page.path), @utils.getDirname(fullOutFileName)
         @logger.info 'Done\n'
     catch error
@@ -55,7 +56,7 @@ class App
   # @param {string} fullOutFileName Absolute path to resulting file
   # @return {string} Absolute path to created MD file
   ###
-  writeMarkdownFile: (text, fullOutFileName) ->
+  writeMarkdownFile: (text, rawText, fullOutFileName) ->
     fullOutDirName = @utils.getDirname fullOutFileName
     try
         @_fs.ensureDirSync fullOutDirName
@@ -63,7 +64,12 @@ class App
         @logger.error "Unable to create directory '#{fullOutDirName}': #{error}"
         throw error
 
-    @converter.convert text, fullOutFileName
+    # Convert underscores in filenames to hyphens
+    fullOutFileName = fullOutFileName.replace(/_/g, "-").toLowerCase()
+
+    # Remove trailing hyphens ...yes, some pages have spaces on the end.
+    fullOutFileName = fullOutFileName.replace /-+(\.[^\.]+)$/, '$1'
+    @converter.convert text, rawText, fullOutFileName
 
 
   ###*
@@ -74,7 +80,7 @@ class App
     globalIndex = @_path.join dirOut, 'index.md'
     $content = @formatter.createListFromArray indexHtmlFiles
     text = @formatter.getHtml $content
-    @writeMarkdownFile text, globalIndex
+    @writeMarkdownFile text, "", globalIndex
 
 
 module.exports = App
