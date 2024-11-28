@@ -282,9 +282,8 @@ class Formatter
       .end()
 
   ###*
-  # Changes links to local HTML files to generated MD files.
+  # Wraps codeContent blocks with pre and code tags so the parser can pick them up correctly.
   # @param {cheerio obj} $content Content of a file
-  # @param {string} cwd Current working directory (where HTML file reside)
   # @return {cheerio obj} Cheerio object
   ###
   wrapCodeBlocks: ($content) ->

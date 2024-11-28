@@ -69,7 +69,6 @@ class App
 
     # Remove trailing hyphens ...yes, some pages have spaces on the end.
     fullOutFileName = fullOutFileName.replace /-+(\.[^\.]+)$/, '$1'
-    @logger.info 'Argh' + fullOutFileName
     @converter.convert text, rawText, fullOutFileName
 
 

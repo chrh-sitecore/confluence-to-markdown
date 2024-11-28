@@ -69,11 +69,11 @@ class TurndownConverter extends HtmlToMarkdownConverter
           # Join the breadcrumb items into a single string separated by " > "
           breadcrumbString = breadcrumbText.join(' > ')
 
-        # Extract the text from each match
-        breadcrumbText = (match.match(/>(.*?)<\/a>/)[1] for match in breadcrumbMatches)
+          # Extract the text from each match
+          breadcrumbText = (match.match(/>(.*?)<\/a>/)[1] for match in breadcrumbMatches)
 
-        # Join the breadcrumb items into a single string separated by " > "
-        breadcrumbString = breadcrumbText.join(' > ')
+          # Join the breadcrumb items into a single string separated by " > "
+          breadcrumbString = breadcrumbText.join(' > ')
 
         # Extract the title-text content using a regular expression
         titleMatch = rawHtml.match /<span id="title-text">\s*([\s\S]*?)\s*<\/span>/
