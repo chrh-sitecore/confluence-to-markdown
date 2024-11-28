@@ -89,6 +89,7 @@ Note: all these changes only work for and were only tested on the Turndown Conve
 ### Sitecore specific updates
 - AP Containers are removed (`.ap-container`)
 - Additional optional parameter in the `ConvertTo-Markdown.ps1` PowerShell script to copy the exported pages and assets into another directory of your choosing (e.g. your learn/accelerate directory).
+  - Note: the pages to copy must be manually added to the bottom of the `ConvertTo-Markdown.ps1` script. See the 'room for improvement' section for a suggestion on automating this via breadcrumb.
 - addPageHeading method removed as we don't need this in the accelerate markdown.
 - The raw confluence page html is additionally passed to the `TurndownConverter.coffee` class
   - This is then used to create and populate a YAML block at the top of the .md file for use with the developer portal
@@ -119,7 +120,7 @@ Please note that Blog will **NOT** be exported to HTML. You have to copy it manu
 
 # Attribution
 
-Thanks to Eric White for a starting point. Thanks to JGM for the updated version.
+Thanks to Eric White for a starting point. Thanks to C-J Berg for the updated version.
 
 
 [pandoc]: http://pandoc.org/installing.html
