@@ -80,7 +80,7 @@ class Utils
     # *  (asterisk)
     #    (other punctuation, while not strictly invalid, can lead to errors if copy-pasting filenames into shells or scripts)
     # Finally, collapse multiple contiguous underscores into a single underscore
-    name.replace(/[\s<>()\[\]{}:;'`"\/\\|?\*~!@#$%^&,]/g, '_').replace(/__+/g, '_')
+    name.replace(/[\s<>()\[\]{}:;'`"\/\\|?\*~!@#$%^&,]/g, '-').replace(/--+/g, '-')
 
 
   getBasename: (path, extension) ->

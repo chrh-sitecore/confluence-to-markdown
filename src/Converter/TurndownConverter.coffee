@@ -122,20 +122,28 @@ class TurndownConverter extends HtmlToMarkdownConverter
         else
             null
 
+        # Extract audience
+        matchAudience = html.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Reference Audience<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
+        audience = ""
+        if matchAudience
+            audience = matchAudience[1].trim()
+
         yamlHeader = """
         ---
         title: '#{title}'
         description: '#{description}'
-        hasSubPageNav: false
-        hasInPageNav: false
+        hasSubPageNav: true
+        hasInPageNav: true
         area: ['accelerate']
         lastUpdated: '#{formattedDate}'
         breadcrumb: '#{breadcrumbString}'
         author: '#{author}'
+        audience: '#{audience}'
         ---
 
         """
         markdown = yamlHeader + markdown
+
         @_fs.writeFileSync markdownPath, markdown, flag: 'w'
     catch error
         console.error error
