@@ -123,7 +123,7 @@ class TurndownConverter extends HtmlToMarkdownConverter
             null
 
         # Extract audience
-        matchAudience = html.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Reference Audience<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
+        matchAudience = rawHtml.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Reference Audience<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
         audience = ""
         if matchAudience
             audience = matchAudience[1].trim()

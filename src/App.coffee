@@ -42,7 +42,7 @@ class App
     text = page.getTextToConvert pages
 
     # Append the page project step (if present and valid) to the path
-    matchprojectStep = text.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Project Step<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
+    matchprojectStep = rawText.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Project Step<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
     projectStepPath = ""
     if matchprojectStep
         projectStepPath = matchprojectStep[1].trim()
@@ -55,7 +55,7 @@ class App
             console.log("I.e.: '" + @_path.join dirOut, projectStepPath, page.space, page.fileNameNew )
 
     # Append the page chapter (if present and valid) to the path
-    matchChapter = text.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Chapter<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
+    matchChapter = rawText.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Chapter<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
     chapterPath = ""
     if matchChapter
         chapterPath = matchChapter[1].trim()

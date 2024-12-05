@@ -156,6 +156,19 @@ class Formatter
     $content
       .find('#attachments').remove().end()
 
+  removeRecipeTable: ($content) ->
+    $ = @_cheerio.default
+    # Find the first <th> with "Recipe name" in the text
+    th = $content.find('th').filter (i, el) -> 
+      $(el).find('strong').text().trim() is "Recipe name"
+
+      # Ensure a match exists
+    if th.length > 0
+      # Locate the closest <table> and remove it without affecting the entire document
+      table = th.first().closest('table.confluenceTable')
+      table.remove()
+
+    return $content  # Explicitly return the modified content
 
   removeStyleTags: ($content) ->
     $content
