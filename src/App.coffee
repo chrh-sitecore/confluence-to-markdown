@@ -40,12 +40,40 @@ class App
     @logger.info 'Parsing ... ' + page.path
     rawText = page.getRawText pages
     text = page.getTextToConvert pages
-    fullOutFileName = @_path.join dirOut, page.space, page.fileNameNew
+
+    # Append the page project step (if present and valid) to the path
+    matchprojectStep = rawText.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Project Step<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
+    projectStepPath = ""
+    if matchprojectStep
+        projectStepPath = matchprojectStep[1].trim()
+        if projectStepPath.includes("Example Discovery") or projectStepPath.includes("N/A") or projectStepPath.includes("n/a") or projectStepPath.length < 3
+            console.warn("Project Step contains default values or n/a - reverted to default file path. Project Step was: '" + projectStepPath + "'")
+            projectStepPath = ""
+        else    
+            projectStepPath = projectStepPath.split('/').join('\\').replace(/\s+/g, '-').toLowerCase() # Replace forward slashes with backslashes (VS coffeescript parser doesn't like regex)
+            console.log("Project Step path found, appending to output path: '" + dirOut + projectStepPath)
+            console.log("I.e.: '" + @_path.join dirOut, projectStepPath, page.space, page.fileNameNew )
+
+    # Append the page chapter (if present and valid) to the path
+    matchChapter = rawText.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Chapter<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
+    chapterPath = ""
+    if matchChapter
+        chapterPath = matchChapter[1].trim()
+        if chapterPath.includes("Example Discovery") or chapterPath.includes("N/A") or chapterPath.includes("n/a") or chapterPath.length < 3
+            console.warn("Chapter path contains default values or n/a - reverted to default file path. Chapter was: '" + chapterPath + "'")
+            chapterPath = ""
+        else    
+            chapterPath = chapterPath.split('/').join('\\').replace(/\s+/g, '-').toLowerCase() # Replace forward slashes with backslashes (VS coffeescript parser doesn't like regex)
+            console.log("Chapter path found, appending to output path: '" + dirOut + chapterPath)
+            console.log("I.e.: '" + @_path.join dirOut, chapterPath, page.space, page.fileNameNew )
+
+    assetOutputFileName = @_path.join dirOut, page.space, page.fileNameNew
+    fullOutFileName = @_path.join dirOut, page.space, "markdown", projectStepPath, chapterPath, page.fileNameNew
 
     @logger.info 'Making Markdown ... ' + fullOutFileName
     try
         @writeMarkdownFile text, rawText, fullOutFileName
-        @utils.copyAssets @utils.getDirname(page.path), @utils.getDirname(fullOutFileName)
+        @utils.copyAssets @utils.getDirname(page.path), @utils.getDirname(assetOutputFileName)
         @logger.info 'Done\n'
     catch error
         @logger.error "Failed: #{error}\n"
@@ -63,9 +91,6 @@ class App
     catch error
         @logger.error "Unable to create directory '#{fullOutDirName}': #{error}"
         throw error
-
-    # Convert underscores in filenames to hyphens
-    fullOutFileName = fullOutFileName.replace(/_/g, "-").toLowerCase()
 
     # Remove trailing hyphens ...yes, some pages have spaces on the end.
     fullOutFileName = fullOutFileName.replace /-+(\.[^\.]+)$/, '$1'

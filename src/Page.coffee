@@ -43,6 +43,7 @@ class Page
   getTextToConvert: (pages) ->
     content = @formatter.getRightContentByFileName @content, @fileName
     content = @formatter.removeAttachmentsSection content
+    content = @formatter.removeRecipeTable content
     content = @formatter.fixHeadline content
     content = @formatter.fixIcon content
     content = @formatter.fixEmptyLink content
