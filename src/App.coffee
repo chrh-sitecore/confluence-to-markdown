@@ -41,6 +41,9 @@ class App
     rawText = page.getRawText pages
     text = page.getTextToConvert pages
 
+    # Make filename lowercase and remove 'ch-' from file
+    page.fileNameNew = page.fileNameNew.toLowerCase().replace(/^ch-/, '')
+
     # Append the page project step (if present and valid) to the path
     matchprojectStep = rawText.match /<th[^>]*class="confluenceTh"[^>]*>\s*<p><strong>Project Step<\/strong><\/p>\s*<\/th>\s*<td[^>]*>\s*<p>(.*?)<\/p>\s*<\/td>/
     projectStepPath = ""
@@ -69,6 +72,7 @@ class App
 
     assetOutputFileName = @_path.join dirOut, page.space, page.fileNameNew
     fullOutFileName = @_path.join dirOut, page.space, "markdown", projectStepPath, chapterPath, page.fileNameNew
+
 
     @logger.info 'Making Markdown ... ' + fullOutFileName
     try
