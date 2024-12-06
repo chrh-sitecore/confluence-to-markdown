@@ -75,7 +75,7 @@ Example usage:
   - you can view and/or change them in the [`Page.coffee`](src/Page.coffee) file
   - the rules themselves are located in the [`Formatter.coffee`](src/Formatter.coffee) file
 
-## Updates by Chris Howarth
+## Updates by Chris
 Note: all these changes only work for and were only tested on the Turndown Converter
 - Curly braces and angle brackets are now properly escaped (with backslashes)
   - This is because any loose `{ }` or `< >`  characters may break a markdown parser. 
@@ -95,13 +95,10 @@ Note: all these changes only work for and were only tested on the Turndown Conve
   - The YAML block additionally defines a breadcrumb, author and last updated date to help with review.
 
 ### Room for improvement
-- The `TurndownConverter.coffee` class has several regex hacks added to massage the html into the right shape
-  - Ideally these would be moved to the `Formatter.coffee` class
-- The breadcrumb could be used to automatically define the directory structure for the Developer Portal
-  - This would involve updating `@_fs.writeFileSync markdownPath, markdown, flag: 'w'` in `TurndownConverter.coffee`.
-  - And also a lot of directory creation logic would need to be built.
-- If you happen to find something not to your liking, you are welcome to send a PR. Some good starting points are mentioned in the [Process description](#process-description) section above. 
-
+- The `TurndownConverter.coffee` class has several regex hacks specific to Accelerate recipe generation:
+  - Massaging the html into the right shape.
+  - Populating the YAML required by the Developer Portal.
+  - Ideally these would be moved to the `Formatter.coffee` class.
 
 ## Step by step guide for Confluence data export<a name="conflhowto"></a>
 
